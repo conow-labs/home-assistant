@@ -1,0 +1,40 @@
+{
+    "functions": [
+        {
+            "code": "plug_mon_time1_start",
+            "type": "hourmin",
+            "values": "{}",
+            "name": "Schedule 1 End Time"
+        },
+        {
+            "code": "day_time1_ignore_anti_backflow",
+            "type": "Boolean",
+            "values": "{}",
+            "name": "Schedule 1 - Ignore Anti Feedin"
+        },
+        {
+            "code": "work_mode",
+            "type": "Enum",
+            "values": "{\"range\":[\"1\",\"2\",\"3\",\"5\"]}",
+            "name": "Indicator light mode"
+        },
+        {
+            "code": "day_time1_power",
+            "type": "Integer",
+            "values": "{\"min\":0,\"max\":65535,\"scale\":0,\"step\":1,\"unit\":\"W\"}",
+            "name": "Schedule 1 Discharge Power"
+        }
+    ],
+    "status": [
+        {
+            "code": "controller_sn_serial_number",
+            "type": "String",
+            "values": "{\"maxlen\":255}"
+        },
+        {
+            "code": "battery_capacity",
+            "type": "Integer",
+            "values": "{\"unit\":\"kW·h\",\"min\":0,\"max\":1000000,\"scale\":3,\"step\":1}"
+        }
+    ]
+}
