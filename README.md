@@ -128,7 +128,7 @@ Prefer **state triggers** with the full `entity_id`. Device triggers must refere
 ## Project Structure
 
 ```
-nunu/
+home-assistant/
 ├── LICENSE                          # MIT
 ├── README.md                        # This file (HACS readme)
 ├── hacs.json
