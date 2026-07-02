@@ -157,6 +157,24 @@ Always confirm the target device and action with the user before issuing write c
 
 ---
 
+## Q&A
+
+### Energy dashboard shows **Entity not defined** after switching from the Tuya integration to Conow
+
+**Symptom:** On **Settings → Dashboards → Energy**, the Electricity grid section shows a warning such as:
+
+> Entity not defined — Check the integration or your configuration that provides:
+> - `sensor.ke_ting_lyra_2500_pro_2_lifetime_battery_charge_energy`
+> - `sensor.ke_ting_lyra_2500_pro_2_lifetime_battery_discharge_energy`
+
+**Cause:** Energy configuration stores full `entity_id` values. When you migrate from the official **Tuya** integration (or the legacy `tuya_energy` integration) to **Conow**, entity IDs are recreated with different naming — for example, Conow uses Energy Model `code` slugs such as `stack_accumulated_charging_power` instead of Tuya translation keys such as `lifetime_battery_charge_energy`. The old IDs no longer exist, so Energy still points at orphaned entries.
+
+**Fix:** Open the Energy configuration, remove or replace the broken entities, and **manually select the new Conow sensor entities** for the same device. Exact names depend on your device and area assignment; search in the entity picker by device name (e.g. **Lyra 2500 Pro 2**) and choose the kWh sensors with `device_class: energy`.
+
+**Note:** If a newly added entity shows **Statistics not defined** briefly, wait up to 5 minutes after the sensor first reports a numeric value — Home Assistant generates statistics metadata on the next recorder compile cycle.
+
+---
+
 ## License
 
 Released under the [MIT License](./LICENSE).

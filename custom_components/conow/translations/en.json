@@ -679,6 +679,21 @@
             }
         },
         "sensor": {
+            "total_photovoltaic_power_generation": {
+                "name": "Lifetime PV energy"
+            },
+            "stack_accumulated_charging_power": {
+                "name": "Lifetime battery charge energy"
+            },
+            "accumulated_discharge_power_of_stack": {
+                "name": "Lifetime battery discharge energy"
+            },
+            "the_total_power_generated_by_the_meter": {
+                "name": "Lifetime inverter output energy"
+            },
+            "cuml_e_export_offgrid1": {
+                "name": "Lifetime off-grid port energy"
+            },
             "air_pressure": {
                 "name": "Air pressure"
             },

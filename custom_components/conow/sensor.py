@@ -1704,6 +1704,11 @@ class TuyaSensorEntity(TuyaEntity, SensorEntity):
 
         self._validate_device_class_unit(definition.sensor_wrapper.native_unit)
 
+        if description.device_class is not None:
+            self._attr_device_class = description.device_class
+        if description.state_class is not None:
+            self._attr_state_class = description.state_class
+
     def _validate_device_class_unit(self, tuya_uom: str | None) -> None:
         """Validate device class unit compatibility."""
 

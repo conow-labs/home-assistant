@@ -9,11 +9,16 @@ from typing import Any
 from tuya_sharing import CustomerDevice
 from tuya_sharing.device import DeviceFunction
 
-from homeassistant.components.sensor import SensorEntityDescription
+from homeassistant.components.sensor import (
+    SensorDeviceClass,
+    SensorEntityDescription,
+    SensorStateClass,
+)
 from homeassistant.components.number import NumberEntityDescription
 from homeassistant.components.select import SelectEntityDescription
 from homeassistant.components.switch import SwitchEntityDescription
 from homeassistant.components.time import TimeEntityDescription
+from homeassistant.const import UnitOfEnergy
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers import entity_registry as er
@@ -252,16 +257,57 @@ def iter_panel_status_sensors(
         yield entry
 
 
+def _parse_panel_entry_values(entry: dict[str, Any]) -> dict[str, Any]:
+    """Parse the values payload from a panel schema entry."""
+    values = entry.get("values")
+    if isinstance(values, dict):
+        return values
+    if isinstance(values, str):
+        try:
+            parsed = json.loads(values)
+        except json.JSONDecodeError:
+            return {}
+        return parsed if isinstance(parsed, dict) else {}
+    return {}
+
+
+def _normalize_energy_unit(unit: str) -> str | None:
+    """Return a canonical HA energy unit when the schema unit is cumulative energy."""
+    normalized = str(unit).strip().lower().replace(" ", "")
+    normalized = normalized.replace("·", "").replace(".", "")
+    if normalized in {"kwh", "kilowatthour"}:
+        return UnitOfEnergy.KILO_WATT_HOUR
+    if normalized in {"wh", "watthour"}:
+        return UnitOfEnergy.WATT_HOUR
+    return None
+
+
+def is_panel_cumulative_energy_entry(entry: dict[str, Any]) -> bool:
+    """Return whether a panel status entry represents cumulative energy."""
+    if str(entry.get("type", "")) != "Integer":
+        return False
+    values = _parse_panel_entry_values(entry)
+    return _normalize_energy_unit(str(values.get("unit", ""))) is not None
+
+
 def build_panel_status_sensor_description(
     entry: dict[str, Any],
 ) -> SensorEntityDescription:
     """Build a sensor entity description for a read-only status DP."""
     function = status_entry_to_function(entry)
-    return SensorEntityDescription(
-        key=function.code,
-        name=format_function_label(function),
-        translation_key=function.code,
-    )
+    kwargs: dict[str, Any] = {
+        "key": function.code,
+        "name": format_function_label(function),
+        "translation_key": function.code,
+    }
+    if is_panel_cumulative_energy_entry(entry):
+        values = _parse_panel_entry_values(entry)
+        unit = _normalize_energy_unit(str(values.get("unit", "")))
+        kwargs["device_class"] = SensorDeviceClass.ENERGY
+        kwargs["state_class"] = SensorStateClass.TOTAL_INCREASING
+        if unit is not None:
+            kwargs["native_unit_of_measurement"] = unit
+    return SensorEntityDescription(**kwargs)
 
 
 def get_panel_status_sensor_definition(device: CustomerDevice, code: str):
