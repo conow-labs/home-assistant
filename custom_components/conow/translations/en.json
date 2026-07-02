@@ -273,6 +273,9 @@
             "minimum_brightness": {
                 "name": "Minimum brightness"
             },
+            "min_soc_discharge": {
+                "name": "Backup reserve SoC"
+            },
             "move_down": {
                 "name": "Move down"
             },
@@ -329,17 +332,17 @@
             "work_mode": {
                 "name": "Inverter work mode",
                 "state": {
-                    "1": "self",
-                    "2": "tou",
-                    "3": "manual",
-                    "5": "diy"
+                    "1": "Self",
+                    "2": "Tou",
+                    "3": "Manual",
+                    "5": "Diy"
                 }
             },
             "diy_mode": {
                 "name": "Charge mode",
                 "state": {
-                    "0": "charge",
-                    "1": "discharge"
+                    "0": "Charge",
+                    "1": "Discharge"
                 }
             },
             "basic_anti_flicker": {
@@ -806,6 +809,12 @@
             "gas": {
                 "name": "Gas"
             },
+            "grid_port_power": {
+                "name": "Grid power"
+            },
+            "heap_soc": {
+                "name": "Battery SoC"
+            },
             "heat_exchanger_temperature": {
                 "name": "Heat exchanger temperature"
             },
@@ -945,6 +954,12 @@
             "pump_time": {
                 "name": "Water pump duration"
             },
+            "pv1_power": {
+                "name": "PV power channel 1"
+            },
+            "pv2_power": {
+                "name": "PV power channel 2"
+            },
             "pv_channel_power": {
                 "name": "PV channel {index} power"
             },
@@ -1015,6 +1030,12 @@
             },
             "total_pv_power": {
                 "name": "Total PV power"
+            },
+            "total_photovoltaic_power": {
+                "name": "Total PV Power"
+            },
+            "total_stack_power": {
+                "name": "Battery power"
             },
             "total_volatile_organic_compound": {
                 "name": "Total volatile organic compound"
@@ -1105,6 +1126,9 @@
             },
             "frost_protection": {
                 "name": "Frost protection"
+            },
+            "feedin_power_limit_enable": {
+                "name": "Feed-in Power Limit Switch"
             },
             "heat_preservation": {
                 "name": "Heat preservation"

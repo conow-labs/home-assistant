@@ -316,7 +316,7 @@ def build_values_string(dp_type: str, data_spec: dict[str, Any]) -> str:
     return json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
 
 
-def convert_model_entry(entry: dict[str, Any]) -> dict[str, str] | None:
+def convert_model_entry(entry: dict[str, Any]) -> dict[str, Any] | None:
     """Convert one energy model entry to instruction-set item."""
     semantic_type = entry.get("type")
     if semantic_type not in SEMANTIC_TO_BUCKET:
@@ -334,11 +334,14 @@ def convert_model_entry(entry: dict[str, Any]) -> dict[str, str] | None:
     if not code:
         return None
 
-    return {
+    converted: dict[str, Any] = {
         "code": str(code),
         "type": dp_type,
         "values": build_values_string(dp_type, data_spec),
     }
+    if name := entry.get("name"):
+        converted["name"] = str(name)
+    return converted
 
 
 def convert_energy_model(
@@ -393,10 +396,7 @@ def convert_panel_functions(
         if converted is None or converted["type"] not in PANEL_DP_TYPES:
             continue
 
-        item: dict[str, Any] = dict(converted)
-        if name := entry.get("name"):
-            item["name"] = str(name)
-        functions.append(item)
+        functions.append(dict(converted))
 
     functions.sort(key=lambda item: item["code"])
     return _dedupe_panel_functions_by_code(functions)

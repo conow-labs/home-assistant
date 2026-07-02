@@ -1,0 +1,79 @@
+{
+    "entity": {
+        "number": {
+            "diy_target_soc": {
+                "name": "Doel-laadniveau"
+            },
+            "diy_max_power": {
+                "name": "Max. AC-vermogen"
+            },
+            "diy_timeout": {
+                "name": "Duur"
+            },
+            "min_soc_discharge": {
+                "name": "Backup reserve SoC"
+            }
+        },
+        "select": {
+            "work_mode": {
+                "name": "Bedrijfsmodus",
+                "state": {
+                    "1": "Eigenverbruik",
+                    "2": "Tou",
+                    "3": "Handmatig",
+                    "5": "Diy"
+                }
+            },
+            "diy_mode": {
+                "name": "Laadmodus",
+                "state": {
+                    "0": "Laden",
+                    "1": "Ontladen"
+                }
+            }
+        },
+        "sensor": {
+            "heap_soc": {
+                "name": "Batterij-SoC"
+            },
+            "total_photovoltaic_power": {
+                "name": "Totaal PV-vermogen"
+            },
+            "pv1_power": {
+                "name": "PV-vermogen kanaal 1"
+            },
+            "pv2_power": {
+                "name": "PV-vermogen kanaal 2"
+            },
+            "total_stack_power": {
+                "name": "Batterijvermogen"
+            },
+            "grid_port_power": {
+                "name": "Netvermogen"
+            },
+            "total_photovoltaic_power_generation": {
+                "name": "Totale PV-energie"
+            },
+            "the_total_power_generated_by_the_meter": {
+                "name": "Totale omvormeruitgang"
+            },
+            "accumulated_discharge_power_of_stack": {
+                "name": "Totale batterijontlading"
+            },
+            "stack_accumulated_charging_power": {
+                "name": "Totale batterijladings"
+            },
+            "cuml_e_export_offgrid1": {
+                "name": "Totale noodstroomenergie"
+            }
+        },
+        "switch": {
+            "output_power_limit": {
+                "name": "Vermogenslimiet"
+            },
+            "feedin_power_limit_enable": {
+                "name": "Terugleverbegrenzing"
+            }
+        }
+    }
+}

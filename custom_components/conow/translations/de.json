@@ -1,0 +1,79 @@
+{
+    "entity": {
+        "number": {
+            "diy_target_soc": {
+                "name": "Ziel-Ladestand"
+            },
+            "diy_max_power": {
+                "name": "Max. AC-Leistung"
+            },
+            "diy_timeout": {
+                "name": "Dauer"
+            },
+            "min_soc_discharge": {
+                "name": "Notstrom-Reserve SoC"
+            }
+        },
+        "select": {
+            "work_mode": {
+                "name": "Betriebsmodus",
+                "state": {
+                    "1": "Eigenverbrauch",
+                    "2": "Tou",
+                    "3": "Manuell",
+                    "5": "Diy"
+                }
+            },
+            "diy_mode": {
+                "name": "Lademodus",
+                "state": {
+                    "0": "Laden",
+                    "1": "Entladen"
+                }
+            }
+        },
+        "sensor": {
+            "heap_soc": {
+                "name": "Batterie-SoC"
+            },
+            "total_photovoltaic_power": {
+                "name": "PV-Gesamtleistung"
+            },
+            "pv1_power": {
+                "name": "PV-Leistung Kanal 1"
+            },
+            "pv2_power": {
+                "name": "PV-Leistung Kanal 2"
+            },
+            "total_stack_power": {
+                "name": "Batterieleistung"
+            },
+            "grid_port_power": {
+                "name": "Netzleistung"
+            },
+            "total_photovoltaic_power_generation": {
+                "name": "Gesamt PV-Energie"
+            },
+            "the_total_power_generated_by_the_meter": {
+                "name": "Gesamt WR-Ausgang"
+            },
+            "accumulated_discharge_power_of_stack": {
+                "name": "Gesamt Batterieentladung"
+            },
+            "stack_accumulated_charging_power": {
+                "name": "Gesamt Batterieladung"
+            },
+            "cuml_e_export_offgrid1": {
+                "name": "Gesamt Notstrom"
+            }
+        },
+        "switch": {
+            "output_power_limit": {
+                "name": "Leistungslimit"
+            },
+            "feedin_power_limit_enable": {
+                "name": "Einspeisebegrenzung"
+            }
+        }
+    }
+}
