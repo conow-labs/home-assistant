@@ -1,7 +1,7 @@
 {
   "domain": "conow",
   "name": "Conow Official",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "codeowners": ["@Tuya", "@zlinoliver"],
   "config_flow": true,
   "dependencies": ["ffmpeg", "http", "websocket_api"],
