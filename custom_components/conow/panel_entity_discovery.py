@@ -282,12 +282,26 @@ def _normalize_energy_unit(unit: str) -> str | None:
     return None
 
 
-def is_panel_cumulative_energy_entry(entry: dict[str, Any]) -> bool:
-    """Return whether a panel status entry represents cumulative energy."""
-    if str(entry.get("type", "")) != "Integer":
-        return False
-    values = _parse_panel_entry_values(entry)
-    return _normalize_energy_unit(str(values.get("unit", ""))) is not None
+def _resolve_sensor_device_class(value: Any) -> SensorDeviceClass | None:
+    """Resolve an API-provided device class string to a SensorDeviceClass."""
+    if value is None or str(value) == "":
+        return None
+    try:
+        return SensorDeviceClass(str(value))
+    except ValueError:
+        LOGGER.warning("Ignoring unknown panel sensor device_class %s", value)
+        return None
+
+
+def _resolve_sensor_state_class(value: Any) -> SensorStateClass | None:
+    """Resolve an API-provided state class string to a SensorStateClass."""
+    if value is None or str(value) == "":
+        return None
+    try:
+        return SensorStateClass(str(value))
+    except ValueError:
+        LOGGER.warning("Ignoring unknown panel sensor state_class %s", value)
+        return None
 
 
 def build_panel_status_sensor_description(
@@ -300,13 +314,13 @@ def build_panel_status_sensor_description(
         "name": format_function_label(function),
         "translation_key": function.code,
     }
-    if is_panel_cumulative_energy_entry(entry):
-        values = _parse_panel_entry_values(entry)
-        unit = _normalize_energy_unit(str(values.get("unit", "")))
-        kwargs["device_class"] = SensorDeviceClass.ENERGY
-        kwargs["state_class"] = SensorStateClass.TOTAL_INCREASING
-        if unit is not None:
-            kwargs["native_unit_of_measurement"] = unit
+    if device_class := _resolve_sensor_device_class(entry.get("device_class")):
+        kwargs["device_class"] = device_class
+    if state_class := _resolve_sensor_state_class(entry.get("state_class")):
+        kwargs["state_class"] = state_class
+    values = _parse_panel_entry_values(entry)
+    if unit := _normalize_energy_unit(str(values.get("unit", ""))):
+        kwargs["native_unit_of_measurement"] = unit
     return SensorEntityDescription(**kwargs)
 
 

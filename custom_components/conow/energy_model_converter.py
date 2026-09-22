@@ -341,6 +341,9 @@ def convert_model_entry(entry: dict[str, Any]) -> dict[str, Any] | None:
     }
     if name := entry.get("name"):
         converted["name"] = str(name)
+    for class_field in ("device_class", "state_class"):
+        if class_value := entry.get(class_field):
+            converted[class_field] = str(class_value)
     return converted
 
 
