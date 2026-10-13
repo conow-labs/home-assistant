@@ -187,13 +187,13 @@
         },
         "number": {
             "diy_target_soc": {
-                "name": "Target Battery Level"
+                "name": "DIY Target Battery Level"
             },
             "diy_max_power": {
-                "name": "Maximum AC Power"
+                "name": "DIY Maximum AC Power"
             },
             "diy_timeout": {
-                "name": "Duration"
+                "name": "DIY Duration"
             },
             "alarm_delay": {
                 "name": "Alarm delay"
@@ -339,10 +339,11 @@
                 }
             },
             "diy_mode": {
-                "name": "Charge mode",
+                "name": "DIY Charge mode",
                 "state": {
                     "0": "Charge",
-                    "1": "Discharge"
+                    "1": "Discharge",
+                    "2": "Idle"
                 }
             },
             "basic_anti_flicker": {
@@ -1300,6 +1301,9 @@
         },
         "device_not_tuya_device": {
             "message": "Device with ID {device_id} is not a Tuya feeder."
+        },
+        "diy_group_incomplete": {
+            "message": "Set the DIY parameters before choosing a charge/discharge mode. Missing: {missing}."
         },
         "demo_schedule_time_invalid_hour": {
             "message": "Hour must be between 0 and 23 (received {hour})."

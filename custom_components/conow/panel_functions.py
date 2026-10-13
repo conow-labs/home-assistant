@@ -14,7 +14,7 @@ from tuya_sharing.exceptions import ApiRequestException
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import HomeAssistantError
 
-from .const import LOGGER
+from .const import DOMAIN, LOGGER
 from .energy_model_converter import (
     build_panel_enum_code_maps,
     build_panel_enum_wire_to_code_maps,
@@ -769,3 +769,80 @@ def validate_group_commands(
         value = command.get("value")
         if not is_value_filled(function_types[code], value):
             raise ValueError(f"Function {code} must not be empty")
+
+
+DIY_MODE_CODE = "diy_mode"
+# ``diy_mode`` value 2 means "Idle": it stops the DIY charge/discharge cycle
+# and therefore does not need any of the DIY parameters.
+DIY_MODE_IDLE_VALUE = "2"
+DIY_REQUIRED_CODES: tuple[str, ...] = (
+    "diy_target_soc",
+    "diy_max_power",
+    "diy_timeout",
+)
+
+
+async def _diy_entity_display_name(
+    hass: HomeAssistant, device: CustomerDevice, code: str
+) -> str:
+    """Return the localized entity name for a DIY code, falling back to the code.
+
+    Uses the entity translations rather than the state's ``friendly_name``,
+    which would also carry the device name prefix.
+    """
+    from homeassistant.helpers.translation import async_get_translations
+
+    from .panel_entity_discovery import resolve_entity_id_for_function
+
+    function = device.function.get(code)
+    if function is not None and (
+        entity_id := resolve_entity_id_for_function(hass, device, function)
+    ):
+        platform = entity_id.split(".", 1)[0]
+        translations = await async_get_translations(
+            hass, hass.config.language, "entity", [DOMAIN]
+        )
+        if name := translations.get(
+            f"component.{DOMAIN}.entity.{platform}.{code}.name"
+        ):
+            return name
+    return code
+
+
+async def validate_diy_group_commands(
+    hass: HomeAssistant, device: CustomerDevice, commands: list[dict[str, Any]]
+) -> None:
+    """Require the DIY parameters to be set before a charge/discharge mode is sent.
+
+    ``diy_mode`` (charge/discharge) only makes sense together with
+    ``diy_target_soc``, ``diy_max_power`` and ``diy_timeout``. The three
+    parameters can be written freely on their own, but selecting the mode is
+    rejected unless they all already carry a value (reported by the device or
+    set locally). Selecting ``diy_mode`` idle skips the check, as stopping the
+    cycle needs no parameters. Missing parameters are reported by their
+    localized entity names rather than raw DP codes.
+    """
+    sent_values = {str(command["code"]): command.get("value") for command in commands}
+    if DIY_MODE_CODE not in sent_values:
+        return
+    if str(sent_values[DIY_MODE_CODE]) == DIY_MODE_IDLE_VALUE:
+        return
+
+    missing = [
+        code
+        for code in DIY_REQUIRED_CODES
+        if not is_value_filled(
+            _resolve_dp_type(device, code) or "String",
+            sent_values.get(code, device.status.get(code)),
+        )
+    ]
+    if missing:
+        names = [
+            await _diy_entity_display_name(hass, device, code) for code in missing
+        ]
+        separator = "、" if hass.config.language.lower().startswith("zh") else ", "
+        raise HomeAssistantError(
+            translation_domain=DOMAIN,
+            translation_key="diy_group_incomplete",
+            translation_placeholders={"missing": separator.join(names)},
+        )

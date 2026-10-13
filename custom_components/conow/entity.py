@@ -18,6 +18,7 @@ from .panel_entity_discovery import (
 from .panel_functions import (
     apply_panel_commands_via_api,
     notify_panel_commands_applied,
+    validate_diy_group_commands,
 )
 from .util import get_device_info
 
@@ -111,6 +112,7 @@ class TuyaEntity(Entity):
         LOGGER.debug("Sending commands for device %s: %s", self.device.id, commands)
         if not commands:
             return
+        await validate_diy_group_commands(self.hass, self.device, commands)
         if is_panel_device(self.device) and all(
             is_panel_dynamic_code(self.device, command["code"])
             for command in commands

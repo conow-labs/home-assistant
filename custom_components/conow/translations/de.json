@@ -2,13 +2,13 @@
     "entity": {
         "number": {
             "diy_target_soc": {
-                "name": "Ziel-Ladestand"
+                "name": "DIY Ziel-Ladestand"
             },
             "diy_max_power": {
-                "name": "Max. AC-Leistung"
+                "name": "DIY Max. AC-Leistung"
             },
             "diy_timeout": {
-                "name": "Dauer"
+                "name": "DIY Laufzeit"
             },
             "min_soc_discharge": {
                 "name": "Notstrom-Reserve SoC"
@@ -25,10 +25,11 @@
                 }
             },
             "diy_mode": {
-                "name": "Lademodus",
+                "name": "DIY Lademodus",
                 "state": {
                     "0": "Laden",
-                    "1": "Entladen"
+                    "1": "Entladen",
+                    "2": "Leerlauf"
                 }
             }
         },

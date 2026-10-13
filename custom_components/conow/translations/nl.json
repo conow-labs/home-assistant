@@ -2,13 +2,13 @@
     "entity": {
         "number": {
             "diy_target_soc": {
-                "name": "Doel-laadniveau"
+                "name": "DIY Doel-laadniveau"
             },
             "diy_max_power": {
-                "name": "Max. AC-vermogen"
+                "name": "DIY Max. AC-vermogen"
             },
             "diy_timeout": {
-                "name": "Duur"
+                "name": "DIY Looptijd"
             },
             "min_soc_discharge": {
                 "name": "Backup reserve SoC"
@@ -25,10 +25,11 @@
                 }
             },
             "diy_mode": {
-                "name": "Laadmodus",
+                "name": "DIY Laadmodus",
                 "state": {
                     "0": "Laden",
-                    "1": "Ontladen"
+                    "1": "Ontladen",
+                    "2": "Inactief"
                 }
             }
         },

@@ -1204,6 +1204,9 @@
     "device_not_tuya_device": {
       "message": "Device with ID {device_id} is not a Tuya feeder."
     },
+    "diy_group_incomplete": {
+      "message": "Set the DIY parameters before choosing a charge/discharge mode. Missing: {missing}."
+    },
     "invalid_meal_plan_data": {
       "message": "Unable to parse meal plan data."
     }
