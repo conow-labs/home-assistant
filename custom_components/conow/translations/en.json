@@ -961,6 +961,12 @@
             "pv2_power": {
                 "name": "PV power channel 2"
             },
+            "pv3_power": {
+                "name": "PV power channel 3"
+            },
+            "pv4_power": {
+                "name": "PV power channel 4"
+            },
             "pv_channel_power": {
                 "name": "PV channel {index} power"
             },

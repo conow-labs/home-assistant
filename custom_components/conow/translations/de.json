@@ -46,6 +46,12 @@
             "pv2_power": {
                 "name": "PV-Leistung Kanal 2"
             },
+            "pv3_power": {
+                "name": "PV-Leistung Kanal 3"
+            },
+            "pv4_power": {
+                "name": "PV-Leistung Kanal 4"
+            },
             "total_stack_power": {
                 "name": "Batterieleistung"
             },
